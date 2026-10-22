@@ -22,6 +22,7 @@ docker compose up -d --build  # 端口 8080
 ```
 
 - SQLite 数据持久化在宿主机 `./data/`（`schedule.db` + `-wal` / `-shm`），备份只需复制该目录。
+- 容器入口脚本会自动修复挂载目录属主（`chown app:app` 后降权运行），无需手动 `chmod`/`chown`；宿主侧 `./data` 内文件属主为 uid 999（app），命令行直接改库需 `sudo chown` 到自己的用户。
 - 查看日志：`docker compose logs -f tracker`
 
 ## 本地开发

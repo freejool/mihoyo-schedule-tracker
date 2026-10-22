@@ -59,12 +59,17 @@ COPY --from=builder /build/target/release/mihoyo-schedule-tracker /app/mihoyo-sc
 
 # SQLite 数据目录：由宿主机 ./data 挂载（schedule.db / -wal / -shm）
 RUN mkdir -p /app/data && chown -R app:app /app
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-USER app
+# 以 root 启动（入口脚本修复挂载目录属主后 setpriv 降权到 app 运行），
+# 避免 Docker 以 root 预建的 bind mount 目录导致 SQLite CANTOPEN。
+USER root
 
 EXPOSE 8080
 
 HEALTHCHECK --interval=60s --timeout=5s --start-period=15s --retries=3 \
     CMD curl -fsS http://127.0.0.1:8080/api/health >/dev/null || exit 1
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["/app/mihoyo-schedule-tracker"]
