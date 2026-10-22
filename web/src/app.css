@@ -1,0 +1,54 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@config "../tailwind.config.js";
+
+@theme {
+  --color-surface: light-dark(var(--surface-light), var(--surface-dark));
+  --color-surface-raised: light-dark(var(--surface-raised-light), var(--surface-raised-dark));
+  --color-surface-muted: light-dark(var(--surface-muted-light), var(--surface-muted-dark));
+  --color-ink: light-dark(var(--ink-light), var(--ink-dark));
+  --color-ink-muted: light-dark(var(--ink-muted-light), var(--ink-muted-dark));
+  --color-ink-faint: light-dark(var(--ink-faint-light), var(--ink-faint-dark));
+  --color-border: light-dark(var(--border-light), var(--border-dark));
+  --color-accent: light-dark(var(--accent-light), var(--accent-dark));
+  --color-status-official: light-dark(var(--status-official-light), var(--status-official-dark));
+  --color-status-manual: light-dark(var(--status-manual-light), var(--status-manual-dark));
+  --color-status-predicted: light-dark(var(--status-predicted-light), var(--status-predicted-dark));
+}
+
+:root {
+  --surface-light: #f6f7fb;
+  --surface-raised-light: #ffffff;
+  --surface-muted-light: #eef0f6;
+  --ink-light: #1b2030;
+  --ink-muted-light: #5b6274;
+  --ink-faint-light: #8b91a3;
+  --border-light: #e2e5ee;
+  --accent-light: #4f6ef7;
+  --status-official-light: #16a34a;
+  --status-manual-light: #2563eb;
+  --status-predicted-light: #ea580c;
+
+  --surface-dark: #0f1320;
+  --surface-raised-dark: #171c2d;
+  --surface-muted-dark: #20263c;
+  --ink-dark: #e8eaf2;
+  --ink-muted-dark: #a7adc0;
+  --ink-faint-dark: #6f7690;
+  --border-dark: #2c3350;
+  --accent-dark: #7d93ff;
+  --status-official-dark: #4ade80;
+  --status-manual-dark: #60a5fa;
+  --status-predicted-dark: #fb923c;
+}
+
+html {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+}

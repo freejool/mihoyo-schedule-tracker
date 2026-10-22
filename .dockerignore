@@ -1,0 +1,16 @@
+# Rust 与 Node 构建产物
+target/
+node_modules/
+
+# 本地运行数据（Docker 挂载的是 ./data，本地开发也会写入）
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# 环境与编辑器
+.env
+.git
+.idea/
+.vscode/
+.DS_Store

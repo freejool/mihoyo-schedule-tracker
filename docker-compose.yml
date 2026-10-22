@@ -1,0 +1,28 @@
+services:
+  tracker:
+    build: .
+    image: mihoyo-schedule-tracker:latest
+    container_name: mihoyo-schedule-tracker
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # 容器内时区与后端默认配置
+      - TZ=Asia/Shanghai
+      - PORT=8080
+      - DATABASE_URL=sqlite:///app/data/schedule.db?mode=rwc
+      - SYNC_INTERVAL_HOURS=${SYNC_INTERVAL_HOURS:-6}
+      - SYNC_ON_START=${SYNC_ON_START:-true}
+      # 留空则写操作不需要鉴权；个人服务器建议配置强口令
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-}
+      # 米游社接口候选域名（依次尝试，任一可用即成功）
+      - MIYOUSHE_API_BASES=${MIYOUSHE_API_BASES:-https://bbs-api.miyoushe.com,https://api-takumi.mihoyo.com,https://bbs-api-static.miyoushe.com}
+    volumes:
+      # SQLite 单文件持久化：./data/schedule.db（含 WAL/SHM）
+      - ./data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/api/health"]
+      interval: 60s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
